@@ -9,7 +9,7 @@ is_alac() {
 convert_to_flac() {
     local input_file="$1"
     local output_file="$2"
-    ffmpeg -i "$input_file" -acodec flac -compression_level 8 -map 0:a -map_metadata 0 -map 0:v? "$output_file"
+    ffmpeg -i "$input_file" -acodec flac -map 0:a -map_metadata 0 -map 0:v? "$output_file"
 }
 
 TARGET_PATH="$(pwd)"
