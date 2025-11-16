@@ -18,6 +18,11 @@ for file in *.ape; do
         filename=$(basename "$file" .ape)
         output_file="${filename}.flac"
         
+        if [ -f "$output_file" ]; then
+            echo "跳过（已存在）: $output_file"
+            continue
+        fi
+
         echo "正在转换文件: $file ..."
         
         convert_to_flac "$file" "$output_file"
