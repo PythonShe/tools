@@ -4,8 +4,7 @@
 
 | Script | Description | Output Format | Quality Settings |
 |--------|-------------|---------------|------------------|
-| `ape_to_flac.sh` | Convert APE to FLAC | FLAC | Maximum compression level |
-| `lossless_to_flac.sh` | Convert lossless formats to FLAC | FLAC | Maximum compression level |
+| `lossless_to_flac.sh` | Convert lossless formats to FLAC | FLAC | Maximum Quality |
 | `flac_to_aac.sh` | Convert FLAC to AAC | M4A (AAC) | 320kbps, VBR 5 |
 | `flac_to_mp3.sh` | Convert FLAC to MP3 | MP3 | 320kbps CBR, q:a 0 |
 

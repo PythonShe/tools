@@ -4,7 +4,6 @@
 
 | 脚本 | 功能 | 输出格式 | 质量设置 |
 |------|------|----------|----------|
-| `ape_to_flac.sh` | APE 转 FLAC | FLAC | 最高质量压缩 |
 | `lossless_to_flac.sh` | 多种无损格式转 FLAC | FLAC | 最高质量压缩 |
 | `flac_to_aac.sh` | FLAC 转 AAC | M4A (AAC) | 320kbps, VBR 5 |
 | `flac_to_mp3.sh` | FLAC 转 MP3 | MP3 | 320kbps CBR, q:a 0 |
