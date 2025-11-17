@@ -19,7 +19,7 @@ Located in the `bash_tools/audio/` directory, providing high-quality batch audio
 ### Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/PythonShe/tools.git
 cd Tools
 ```
 

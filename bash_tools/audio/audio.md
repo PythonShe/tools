@@ -43,8 +43,7 @@ bash /Users/zhengshe/Projects/Tools/bash_tools/audio/lossless_to_flac.sh
 sudo cp bash_tools/audio/lossless_to_flac.sh /usr/local/bin/lossless_to_flac
 sudo cp bash_tools/audio/flac_to_aac.sh /usr/local/bin/flac_to_aac
 sudo cp bash_tools/audio/flac_to_mp3.sh /usr/local/bin/flac_to_mp3
-sudo cp bash_tools/audio/ape_to_flac.sh /usr/local/bin/ape_to_flac
-sudo chmod +x /usr/local/bin/{lossless_to_flac,flac_to_aac,flac_to_mp3,ape_to_flac}
+sudo chmod +x /usr/local/bin/{lossless_to_flac,flac_to_aac,flac_to_mp3}
 
 # 使用示例
 cd /path/to/music/folder

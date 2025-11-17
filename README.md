@@ -19,7 +19,7 @@
 ### 克隆仓库
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/PythonShe/tools.git
 cd Tools
 ```
 
