@@ -7,12 +7,17 @@ A personal collection of useful scripts and tools.
 ## Table of Contents
 
 - [Audio Conversion Tools](#audio-conversion-tools)
+- [Video Processing Tools](#video-processing-tools)
 - [Installation](#installation)
 - [License](#license)
 
 ## Audio Conversion Tools
 
 Located in the `bash_tools/audio/` directory, providing high-quality batch audio format conversion.
+
+## Video Processing Tools
+
+Located in the `bash_tools/video/` directory, providing hardware-accelerated batch video processing with support for format conversion, compression, cropping, rotation, merging, and more.
 
 ## Installation
 
