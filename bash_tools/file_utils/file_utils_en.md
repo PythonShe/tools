@@ -144,11 +144,13 @@ Identify files with identical content using hash algorithms (MD5 or SHA256), wit
 
 **Options**:
 ```bash
--a, --algorithm   Hash algorithm (md5|sha256), default: md5
--m, --min-size    Minimum file size (bytes), ignore smaller files, default: 0
--d, --delete      Interactively delete duplicate files (keep first one)
--o, --output      Output duplicate file list to file
--v, --verbose     Verbose mode, show all duplicate file paths
+-a, --algorithm   Specify hash algorithm (md5|sha256), default: md5
+-m, --min-size    Set minimum file size (bytes), ignore smaller files, default: 0
+-d, --delete      Enable interactive deletion mode, ask for each duplicate group
+-s, --smart       Enable smart recognition mode, mark and sort files with (number) suffix
+                  (When used with -d, prioritizes deletion of these suffixed files)
+-o, --output      Output duplicate file list to specified file
+-v, --verbose     Verbose mode, show all paths for each duplicate group
 -h, --help        Show help information
 ```
 
@@ -160,6 +162,9 @@ find_dup
 # Verbose mode, show all duplicate file paths
 find_dup -v
 
+# Smart mode, mark files with (number) suffix as suspected duplicates
+find_dup -s -v
+
 # Use SHA256 algorithm (more secure, slightly slower)
 find_dup -a sha256
 
@@ -169,6 +174,9 @@ find_dup -m 1048576
 # Find and interactively delete duplicates
 find_dup -d
 
+# Smart deletion mode (recommended): prioritize deletion of files with (number) suffix
+find_dup -s -d
+
 # Output results to file
 find_dup -o duplicates.txt
 
@@ -176,13 +184,14 @@ find_dup -o duplicates.txt
 find_dup -v -a sha256 -m 102400 ~/Downloads
 ```
 
-**Output Example**:
+**Normal Mode Output Example**:
 ```
 ==================================================
 Find Duplicate Files
 Target Directory: /Users/username/Downloads
 Hash Algorithm: MD5
 Minimum File Size: 0B
+Smart Mode: false
 Delete Mode: false
 --------------------------------------------------
 Scanning files...
@@ -200,6 +209,24 @@ Duplicate Group #1 (size: 45.23MB, 3 files):
 Duplicate Group #2 (size: 2.15MB, 2 files):
   [1] /Users/username/Downloads/photo.jpg
   [2] /Users/username/Downloads/photo_copy.jpg
+```
+
+**Smart Mode Output Example** (`-s -d`):
+```
+Duplicate Group #1 (size: 15.3MB, 3 files):
+  [1] /Users/username/Downloads/document.pdf
+  [2] /Users/username/Downloads/document (1).pdf [Suspected Duplicate]
+  [3] /Users/username/Downloads/document (2).pdf [Suspected Duplicate]
+
+Detected 2 files with (number) suffix as suspected duplicates
+
+Deletion options:
+  [s] Smart delete - Only delete files with (number) suffix (Recommended)
+  [a] Delete all - Keep [1], delete all others
+  [n] Skip this group
+Choose [s/a/N]: s
+  ✅ Deleted: /Users/username/Downloads/document (1).pdf
+  ✅ Deleted: /Users/username/Downloads/document (2).pdf
 ```
 
 ## Running Scripts Directly (Without System Installation)
@@ -230,8 +257,8 @@ by_type -p
 # Execute after confirmation
 by_type
 
-# Find and delete duplicate downloads
-find_dup -d
+# Use smart mode to find and delete duplicate downloads (recommended)
+find_dup -s -d
 ```
 
 ### Use Case 2: Organize Photo Library
@@ -239,8 +266,11 @@ find_dup -d
 ```bash
 cd ~/Pictures
 
-# Find duplicate photos first
-find_dup -v -m 10240  # Ignore files smaller than 10KB
+# Use smart mode to find duplicate photos first
+find_dup -s -v -m 10240  # Ignore files smaller than 10KB, mark suspected duplicates
+
+# Smart delete duplicate photos
+find_dup -s -d -m 10240
 
 # Organize photos by date
 by_date -r
@@ -283,9 +313,12 @@ which md5sum sha256sum
 
 1. **Preview Mode**: Recommended to use `-p` parameter first to preview operations before execution
 2. **Backup Important Data**: Always backup important data before moving or deleting files
-3. **Duplicate Deletion**: `find_dup.sh -d` keeps the first file found and deletes other duplicates, use with caution
-4. **Large Files**: Processing many files or large files may take some time for hash calculation
-5. **File Permissions**: Ensure you have read/write permissions for target directories
+3. **Duplicate Deletion**:
+   - Normal mode (`-d`): Keeps the first file found and deletes other duplicates
+   - Smart mode (`-s -d`): Prioritizes deletion of files with `(number)` suffix, more aligned with practical usage
+4. **Smart Recognition**: The `-s` option recognizes system-generated duplicate filenames like `file (1).txt` and provides intelligent deletion suggestions
+5. **Large Files**: Processing many files or large files may take some time for hash calculation
+6. **File Permissions**: Ensure you have read/write permissions for target directories
 
 ## FAQ
 
@@ -308,3 +341,11 @@ A: The script includes mappings for common file types. If your file extension is
 **Q: Can I customize file type classifications?**
 
 A: Yes. Open the `by_type.sh` script, modify the case statement in the `get_file_category()` function to add or modify file extension mappings.
+
+**Q: What's the difference between smart mode (-s) and normal mode?**
+
+A: Smart mode automatically recognizes system-generated duplicate filenames (like `file (1).txt`) and marks them as `[Suspected Duplicate]`. In deletion mode, smart mode prioritizes deletion of these suffixed files while keeping the original, which better matches practical needs. Normal mode processes files by path order without distinction.
+
+**Q: Does smart mode automatically delete files?**
+
+A: No. Even in smart deletion mode (`-s -d`), the script asks for confirmation for each duplicate group. You can choose: `[s]` smart delete (only suffixed files), `[a]` delete all, or `[n]` skip. All operations require manual confirmation.
